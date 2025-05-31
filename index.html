@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rocket Global School - Aprenda Idiomas Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body class="bg-slate-50 text-slate-800">
@@ -17,78 +16,90 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center space-x-2">
-                <img src="/images/logo.png" class="custom-logo">
+                <img src="images/logo.png" alt="Rocket Global School Logo" class="custom-logo">
             </a>
             <nav class="hidden md:flex space-x-6 items-center">
                 <a href="#idiomas" class="text-slate-600 hover:text-knn-purple transition duration-300">Idiomas</a>
-                <a href="#como-funciona" class="text-slate-600 hover:text-knn-purple transition duration-300">Como
-                    Funciona</a>
-                <a href="#depoimentos"
-                    class="text-slate-600 hover:text-knn-purple transition duration-300">Depoimentos</a>
-                <a href="#english-test-section"
-                    class="text-slate-600 hover:text-knn-purple transition duration-300">Teste seu Inglês</a>
+                <a href="#como-funciona" class="text-slate-600 hover:text-knn-purple transition duration-300">Como Funciona</a>
+                <a href="#depoimentos" class="text-slate-600 hover:text-knn-purple transition duration-300">Depoimentos</a>
+                <a href="#language-tests-selection" class="text-slate-600 hover:text-knn-purple transition duration-300">Testes de Nível</a>
                 <a href="#contato" class="text-slate-600 hover:text-knn-purple transition duration-300">Contato</a>
-                <a href="#matricular"
-                    class="bg-knn-purple hover:bg-knn-purple-dark text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-sm hover:shadow-md">
-                    Matricule-se
-                </a>
+                <a href="#matricular" class="bg-knn-purple hover:bg-knn-purple-dark text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-sm hover:shadow-md">Matricule-se</a>
             </nav>
             <button id="mobile-menu-button" class="md:hidden text-slate-600 hover:text-knn-purple focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-            <a href="#idiomas"
-                class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Idiomas</a>
-            <a href="#como-funciona"
-                class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Como Funciona</a>
-            <a href="#depoimentos"
-                class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Depoimentos</a>
-            <a href="#english-test-section"
-                class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Teste seu Inglês</a>
-            <a href="#contato"
-                class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Contato</a>
-            <a href="#matricular"
-                class="block px-6 py-3 text-knn-purple bg-purple-100 font-semibold hover:bg-purple-200 text-center">Matricule-se</a>
+            <a href="#idiomas" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Idiomas</a>
+            <a href="#como-funciona" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Como Funciona</a>
+            <a href="#depoimentos" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Depoimentos</a>
+            <a href="#language-tests-selection" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Testes de Nível</a>
+            <a href="#contato" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Contato</a>
+            <a href="#matricular" class="block px-6 py-3 text-knn-purple bg-purple-100 font-semibold hover:bg-purple-200 text-center">Matricule-se</a>
         </div>
     </header>
 
-    <section class="hero-bg text-white py-24 md:py-36">
+    <section id="hero-section" class="hero-bg text-white py-24 md:py-36">
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Decole no aprendizado de idiomas <br
                     class="hidden md:inline"> com a Rocket Global School!</h1>
             <p class="text-lg md:text-2xl mb-10 max-w-3xl mx-auto font-light">Aulas online ao vivo, metodologia
-                inovadora e a flexibilidade que você precisa para falar inglês, espanhol, francês e muito mais.</p>
+                inovadora e a flexibilidade que você precisa para falar inglês, espanhol, italiano, libras e muito mais.
+            </p>
             <div class="space-y-4 md:space-y-0 md:space-x-4">
                 <a href="#idiomas"
                     class="cta-button-purple text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105 inline-block">
                     Explore Nossos Cursos <i class="fas fa-arrow-right ml-2"></i>
                 </a>
-                <a href="#english-test-section" id="start-test-hero-button"
+                <a href="#language-tests-selection" id="start-level-test-hero-button"
                     class="cta-button-orange text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105 inline-block">
-                    Teste seu Inglês Agora <i class="fas fa-vial ml-2"></i>
+                    Faça um Teste de Nível <i class="fas fa-vial ml-2"></i>
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="english-test-section" class="py-16 md:py-24 bg-slate-100">
+    <section id="language-tests-selection" class="py-16 md:py-24 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Descubra
-                seu Nível de Inglês</h2>
-            <p class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Responda algumas perguntas e tenha
-                uma ideia do seu conhecimento na língua inglesa.</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Escolha o
+                Idioma para Testar seu Nível</h2>
+            <p class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Descubra seu conhecimento em um dos
+                idiomas que oferecemos. O teste é rápido e te dará uma boa ideia de onde começar!</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <button data-lang="english" data-lang-name="Inglês"
+                    class="language-test-button bg-knn-purple text-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center">
+                    <i class="fas fa-language text-4xl mb-4"></i>
+                    <span class="text-2xl font-semibold">Inglês</span>
+                </button>
+                <button data-lang="spanish" data-lang-name="Espanhol"
+                    class="language-test-button bg-knn-purple text-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center">
+                    <i class="fas fa-globe-americas text-4xl mb-4"></i>
+                    <span class="text-2xl font-semibold">Espanhol</span>
+                </button>
+                <button data-lang="italian" data-lang-name="Italiano"
+                    class="language-test-button bg-knn-purple text-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center">
+                    <i class="fas fa-pizza-slice text-4xl mb-4"></i> <span
+                        class="text-2xl font-semibold">Italiano</span>
+                </button>
+                <button data-lang="libras" data-lang-name="Libras"
+                    class="language-test-button bg-knn-purple text-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center">
+                    <i class="fas fa-hands-helping text-4xl mb-4"></i> <span
+                        class="text-2xl font-semibold">Libras</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="test-area" class="py-16 md:py-24 bg-slate-100 hidden">
+        <div class="container mx-auto px-6">
+            <h2 id="test-title"
+                class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Descubra
+                seu Nível de...</h2>
+            <p id="test-subtitle" class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Responda algumas
+                perguntas e tenha uma ideia do seu conhecimento.</p>
 
             <div id="test-container" class="bg-white p-6 md:p-10 rounded-xl shadow-2xl max-w-2xl mx-auto">
-                <div id="test-start-screen">
-                    <p class="text-lg text-slate-700 mb-6 text-center">Pronto para começar o teste? Serão 10 perguntas
-                        rápidas.</p>
-                    <button id="start-test-button"
-                        class="w-full cta-button-purple text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300">
-                        Iniciar Teste
-                    </button>
-                </div>
-
                 <div id="test-question-screen" class="hidden">
                     <div class="mb-4">
                         <p class="text-sm text-knn-purple font-semibold">Pergunta <span
@@ -99,8 +110,7 @@
                         </div>
                     </div>
                     <h3 id="question-text" class="text-xl md:text-2xl font-semibold text-slate-800 mb-6"></h3>
-                    <div id="options-container" class="space-y-3">
-                    </div>
+                    <div id="options-container" class="space-y-3"></div>
                     <button id="next-question-button"
                         class="mt-8 w-full cta-button-orange text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300 disabled:opacity-50"
                         disabled>
@@ -109,7 +119,8 @@
                 </div>
 
                 <div id="test-result-screen" class="hidden text-center">
-                    <h3 class="text-2xl md:text-3xl font-bold text-knn-purple mb-4">Resultado do Teste</h3>
+                    <h3 class="text-2xl md:text-3xl font-bold text-knn-purple mb-4">Resultado do Teste de <span
+                            id="result-language-name"></span></h3>
                     <p class="text-slate-700 text-lg mb-2">Você acertou <span id="score" class="font-bold"></span> de
                         <span id="total-questions-result" class="font-bold"></span> perguntas.
                     </p>
@@ -117,7 +128,7 @@
                     <div id="level-description" class="text-slate-600 mb-8"></div>
                     <button id="restart-test-button"
                         class="w-full cta-button-purple text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300">
-                        Fazer o Teste Novamente
+                        Fazer Outro Teste
                     </button>
                     <a href="#contato"
                         class="mt-4 inline-block w-full bg-transparent border-2 border-knn-orange text-knn-orange font-bold py-3 px-8 rounded-lg text-lg hover:bg-knn-orange hover:text-white transition duration-300">
@@ -128,7 +139,7 @@
         </div>
     </section>
 
-    <section class="py-16 md:py-24 bg-white">
+    <section id="why-us" class="py-16 md:py-24 bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Por que
                 Aprender Conosco?</h2>
@@ -169,41 +180,53 @@
                 para Você Decolar</h2>
             <p class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Escolha o idioma que vai abrir novas
                 portas para o seu futuro pessoal e profissional.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://placehold.co/600x400/54008B/FFFFFF?text=Inglês" alt="Curso de Inglês"
+                    <img src="images/ingles.jpg" alt="Curso de Inglês"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-2xl font-semibold text-knn-purple mb-3">Inglês Global</h3>
-                        <p class="text-slate-600 mb-4">O idioma universal para negócios, viagens e entretenimento. Abra
-                            portas para o mundo!</p>
-                        <a href="#"
-                            class="text-knn-orange font-semibold hover:text-orange-700 transition duration-300">Saiba
-                            Mais <i class="fas fa-angle-right ml-1"></i></a>
+                        <p class="text-slate-600 mb-4 text-sm">O idioma universal para negócios, viagens e
+                            entretenimento. Abra portas para o mundo!</p>
+                        <a href="#language-tests-selection" data-lang-test="english"
+                            class="init-test-link text-knn-orange font-semibold hover:text-orange-700 transition duration-300">Teste
+                            seu nível <i class="fas fa-angle-right ml-1"></i></a>
                     </div>
                 </div>
                 <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://placehold.co/600x400/54008B/FFFFFF?text=Espanhol" alt="Curso de Espanhol"
+                    <img src="images/espanhol.jpg" alt="Curso de Espanhol"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-2xl font-semibold text-knn-purple mb-3">Espanhol Vibrante</h3>
-                        <p class="text-slate-600 mb-4">Descubra a riqueza cultural da língua espanhola e conecte-se com
-                            milhões de falantes.</p>
-                        <a href="#"
-                            class="text-knn-orange font-semibold hover:text-orange-700 transition duration-300">Saiba
-                            Mais <i class="fas fa-angle-right ml-1"></i></a>
+                        <p class="text-slate-600 mb-4 text-sm">Descubra a riqueza cultural da língua espanhola e
+                            conecte-se com milhões de falantes.</p>
+                        <a href="#language-tests-selection" data-lang-test="spanish"
+                            class="init-test-link text-knn-orange font-semibold hover:text-orange-700 transition duration-300">Teste
+                            seu nível <i class="fas fa-angle-right ml-1"></i></a>
                     </div>
                 </div>
                 <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://placehold.co/600x400/54008B/FFFFFF?text=Francês" alt="Curso de Francês"
+                    <img src="images/italiano.jpg" alt="Curso de Italiano"
                         class="w-full h-48 object-cover">
                     <div class="p-6">
-                        <h3 class="text-2xl font-semibold text-knn-purple mb-3">Francês Elegante</h3>
-                        <p class="text-slate-600 mb-4">Aprenda o idioma do amor, da arte e da diplomacia. Explore um
-                            universo de charme.</p>
-                        <a href="#"
-                            class="text-knn-orange font-semibold hover:text-orange-700 transition duration-300">Saiba
-                            Mais <i class="fas fa-angle-right ml-1"></i></a>
+                        <h3 class="text-2xl font-semibold text-knn-purple mb-3">Italiano Apaixonante</h3>
+                        <p class="text-slate-600 mb-4 text-sm">A língua da música, da moda e da gastronomia. Viva a
+                            'dolce vita'!</p>
+                        <a href="#language-tests-selection" data-lang-test="italian"
+                            class="init-test-link text-knn-orange font-semibold hover:text-orange-700 transition duration-300">Teste
+                            seu nível <i class="fas fa-angle-right ml-1"></i></a>
+                    </div>
+                </div>
+                <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <img src="images/libras.jpg" alt="Curso de Libras"
+                        class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-knn-purple mb-3">Libras Inclusiva</h3>
+                        <p class="text-slate-600 mb-4 text-sm">Aprenda a Língua Brasileira de Sinais e promova a
+                            comunicação e inclusão.</p>
+                        <a href="#language-tests-selection" data-lang-test="libras"
+                            class="init-test-link text-knn-orange font-semibold hover:text-orange-700 transition duration-300">Teste
+                            seu nível <i class="fas fa-angle-right ml-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -257,7 +280,7 @@
                 nossa maior recompensa!</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg">
-                    <img src="https://placehold.co/80x80/FFFFFF/54008B?text=A" alt="Aluno 1"
+                    <img src="https://placehold.co/80x80/FFFFFF/54008B?text=A" alt="Aluna Ana"
                         class="w-20 h-20 rounded-full mx-auto mb-6 border-4 border-purple-300">
                     <p class="text-purple-50 mb-4 italic">"A Rocket Global School transformou meu aprendizado de inglês!
                         As aulas online são dinâmicas e os professores incríveis. Recomendo!"</p>
@@ -265,15 +288,15 @@
                     <p class="text-sm text-purple-200 text-center">Aluna de Inglês Avançado</p>
                 </div>
                 <div class="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg">
-                    <img src="https://placehold.co/80x80/FFFFFF/54008B?text=C" alt="Aluno 2"
+                    <img src="https://placehold.co/80x80/FFFFFF/54008B?text=C" alt="Aluno Carlos"
                         class="w-20 h-20 rounded-full mx-auto mb-6 border-4 border-purple-300">
-                    <p class="text-purple-50 mb-4 italic">"Finalmente encontrei uma escola de francês online que se
+                    <p class="text-purple-50 mb-4 italic">"Finalmente encontrei uma escola de italiano online que se
                         encaixa na minha rotina. A flexibilidade é ótima e o método é muito eficaz."</p>
                     <h4 class="font-semibold text-lg text-center">Carlos Pereira</h4>
-                    <p class="text-sm text-purple-200 text-center">Aluno de Francês Intermediário</p>
+                    <p class="text-sm text-purple-200 text-center">Aluno de Italiano Intermediário</p>
                 </div>
-                <div class="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg md:col-span-2 lg:col-span-1">
-                    <img src="https://placehold.co/80x80/FFFFFF/54008B?text=M" alt="Aluno 3"
+                <div class="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg md:col-span-2 lg:col-span-1"> <img
+                        src="https://placehold.co/80x80/FFFFFF/54008B?text=M" alt="Aluna Mariana"
                         class="w-20 h-20 rounded-full mx-auto mb-6 border-4 border-purple-300">
                     <p class="text-purple-50 mb-4 italic">"Estudar espanhol na Rocket tem sido uma experiência
                         fantástica. Já consigo me comunicar em viagens e no trabalho!"</p>
@@ -312,9 +335,8 @@
                             <option value="" disabled selected>Qual idioma você quer aprender?</option>
                             <option value="ingles">Inglês</option>
                             <option value="espanhol">Espanhol</option>
-                            <option value="frances">Francês</option>
-                            <option value="alemao">Alemão</option>
                             <option value="italiano">Italiano</option>
+                            <option value="libras">Libras</option>
                             <option value="outro">Outro (especifique na mensagem)</option>
                         </select>
                     </div>
@@ -359,8 +381,8 @@
                                 Funciona</a></li>
                         <li><a href="#depoimentos" class="hover:text-purple-400 transition duration-300">Depoimentos</a>
                         </li>
-                        <li><a href="#english-test-section" class="hover:text-purple-400 transition duration-300">Teste
-                                seu Inglês</a></li>
+                        <li><a href="#language-tests-selection"
+                                class="hover:text-purple-400 transition duration-300">Testes de Nível</a></li>
                         <li><a href="#" class="hover:text-purple-400 transition duration-300">Blog</a></li>
                         <li><a href="#matricular" class="hover:text-purple-400 transition duration-300">Matrículas
                                 Abertas</a></li>
@@ -390,8 +412,8 @@
             </div>
         </div>
     </footer>
-
-    <script src="/js/scripts.js"></script>
+    <script src="js/mobile.js"></script>
+    <script src="js/testes.js"></script>
 </body>
 
 </html>

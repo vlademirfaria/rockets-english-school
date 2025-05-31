@@ -3,7 +3,7 @@ body {
 }
 
 .hero-bg {
-    background-image: linear-gradient(to right, rgba(84, 0, 139, 0.85), rgba(109, 40, 217, 0.85)), url('https://placehold.co/1920x1080/6D28D9/FFFFFF?text=Alunos+Estudando+Online');
+    background-image: linear-gradient(to right, rgba(84, 0, 139, 0.85), rgba(109, 40, 217, 0.85)), url(../images/mulher-de-tiro-medio-lendo-na-cafeteria.jpg);
     background-size: cover;
     background-position: center;
 }
@@ -72,22 +72,21 @@ body {
     background-color: #E65C00;
 }
 
-#english-test-section {
-    transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-}
-
 .question-option {
     transition: background-color 0.2s ease;
 }
 
 .question-option:hover {
     background-color: #f3e8ff;
+    /* Roxo claro para hover */
 }
 
 .question-option.selected {
     background-color: #c084fc;
+    /* Tailwind purple-500 (ajuste se necessário) */
     color: white;
     border-color: #a855f7;
+    /* Tailwind purple-600 (ajuste se necessário) */
 }
 
 .progress-bar-fill {
@@ -96,8 +95,17 @@ body {
 
 .custom-logo {
     /* Classe para a sua logo */
-    height: 40px;
+    height: 100px;
     /* Ajuste a altura conforme necessário */
     width: auto;
     /* Mantém a proporção */
+}
+
+.language-test-button {
+    transition: all 0.3s ease;
+}
+
+.language-test-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
