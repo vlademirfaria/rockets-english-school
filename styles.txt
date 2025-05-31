@@ -1,0 +1,111 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.hero-bg {
+    background-image: linear-gradient(to right, rgba(84, 0, 139, 0.85), rgba(109, 40, 217, 0.85)), url(../images/mulher-de-tiro-medio-lendo-na-cafeteria.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.language-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.language-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.cta-button-purple {
+    background-color: #54008B;
+    /* Roxo KNN */
+}
+
+.cta-button-purple:hover {
+    background-color: #41006A;
+    /* Roxo KNN mais escuro */
+}
+
+.cta-button-orange {
+    background-color: #FF6600;
+    /* Laranja KNN */
+}
+
+.cta-button-orange:hover {
+    background-color: #E65C00;
+    /* Laranja KNN mais escuro */
+}
+
+.section-title-underline::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #FF6600;
+    /* Laranja KNN */
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+.text-knn-purple {
+    color: #54008B;
+}
+
+.bg-knn-purple {
+    background-color: #54008B;
+}
+
+.hover\:bg-knn-purple-dark:hover {
+    background-color: #41006A;
+}
+
+.text-knn-orange {
+    color: #FF6600;
+}
+
+.bg-knn-orange {
+    background-color: #FF6600;
+}
+
+.hover\:bg-knn-orange-dark:hover {
+    background-color: #E65C00;
+}
+
+.question-option {
+    transition: background-color 0.2s ease;
+}
+
+.question-option:hover {
+    background-color: #f3e8ff;
+    /* Roxo claro para hover */
+}
+
+.question-option.selected {
+    background-color: #c084fc;
+    /* Tailwind purple-500 (ajuste se necessário) */
+    color: white;
+    border-color: #a855f7;
+    /* Tailwind purple-600 (ajuste se necessário) */
+}
+
+.progress-bar-fill {
+    transition: width 0.3s ease-in-out;
+}
+
+.custom-logo {
+    /* Classe para a sua logo */
+    height: 100px;
+    /* Ajuste a altura conforme necessário */
+    width: auto;
+    /* Mantém a proporção */
+}
+
+.language-test-button {
+    transition: all 0.3s ease;
+}
+
+.language-test-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
