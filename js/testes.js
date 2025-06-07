@@ -191,6 +191,12 @@ function showResults() {
     if (levelDescriptionEl) levelDescriptionEl.textContent = description;
 }
 
+// Adiciona o event listener para o botão "Próxima Pergunta"
+if (nextQuestionButton) {
+    nextQuestionButton.addEventListener('click', handleNextQuestion);
+}
+
+
 languageTestButtons.forEach(button => {
     button.addEventListener('click', () => {
         const langKey = button.dataset.lang;
