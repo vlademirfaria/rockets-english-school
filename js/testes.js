@@ -20,50 +20,25 @@ const resultLanguageNameEl = document.getElementById('result-language-name');
 
 const testTitleEl = document.getElementById('test-title');
 const testSubtitleEl = document.getElementById('test-subtitle');
+const testContainer = document.getElementById('test-container');
+
 
 const languageTestButtons = document.querySelectorAll('.language-test-button');
 const startLevelTestHeroButton = document.getElementById('start-level-test-hero-button');
 const initTestLinks = document.querySelectorAll('.init-test-link');
 
 
-// Banco de Perguntas
-const allQuestions = {
-    english: [
-        { question: "I _____ a student.", options: ["is", "am", "are", "be"], answer: "am" },
-        { question: "What is the plural of 'child'?", options: ["childs", "childrens", "children", "childes"], answer: "children" },
-        { question: "She _____ to the park yesterday.", options: ["go", "goes", "went", "gone"], answer: "went" },
-        { question: "This is _____ apple.", options: ["a", "an", "the", "some"], answer: "an" },
-        { question: "They _____ watching TV now.", options: ["is", "am", "are", "be"], answer: "are" },
-        { question: "My favorite color is _____, like the sky.", options: ["red", "green", "blue", "yellow"], answer: "blue" },
-        { question: "How _____ brothers do you have?", options: ["much", "many", "more", "lot"], answer: "many" },
-        { question: "He _____ play football very well.", options: ["can", "is", "has", "do"], answer: "can" },
-        { question: "The book is _____ the table.", options: ["in", "at", "on", "under"], answer: "on" },
-        { question: "What time _____ it?", options: ["is", "are", "do", "does"], answer: "is" }
-    ],
-    spanish: [
-        { question: "Yo _____ estudiante.", options: ["soy", "eres", "es", "somos"], answer: "soy" },
-        { question: "¿Cómo te _____?", options: ["llamo", "llamas", "llama", "llaman"], answer: "llamas" },
-        { question: "Nosotros _____ (vivir) en una casa grande.", options: ["vivo", "vives", "vive", "vivimos"], answer: "vivimos" },
-        { question: "_____ las dos de la tarde.", options: ["Es", "Son", "Está", "Están"], answer: "Son" },
-        { question: "El gato _____ (dormir) en el sofá.", options: ["duerme", "duermes", "duerme", "duermen"], answer: "duerme" }, // Corrigido para 'duerme'
-        { question: "¿Cuántos años _____ (tener, tú)?", options: ["tengo", "tienes", "tiene", "tenemos"], answer: "tienes" },
-        { question: "Me _____ (gustar) la música clásica.", options: ["gusta", "gustan", "gusto", "gustas"], answer: "gusta" },
-        { question: "Ellos _____ (ir) al cine mañana.", options: ["voy", "vas", "va", "van"], answer: "van" },
-        { question: "La mesa es de _____ (madera).", options: ["madera", "madero", "madre", "madras"], answer: "madera" },
-        { question: "No _____ (haber) nadie en la calle.", options: ["hay", "ha", "han", "haya"], answer: "hay" }
-    ],
-    italian: [
-        { question: "Io _____ uno studente.", options: ["sono", "sei", "è", "siamo"], answer: "sono" },
-        { question: "Come ti _____?", options: ["chiamo", "chiami", "chiama", "chiamano"], answer: "chiami" },
-        { question: "Lui _____ (parlare) molto bene l'italiano.", options: ["parlo", "parli", "parla", "parlano"], answer: "parla" },
-        { question: "Noi _____ (andare) al mare domani.", options: ["vado", "vai", "va", "andiamo"], answer: "andiamo" },
-        { question: "Questi sono i _____ (libro) di Marco.", options: ["libri", "libro", "libra", "libre"], answer: "libri" },
-        { question: "Mi _____ (piacere) la pizza.", options: ["piace", "piacciono", "piaccio", "piaci"], answer: "piace" },
-        { question: "Che ore _____?", options: ["è", "sono", "fa", "stanno"], answer: "sono" },
-        { question: "Dove _____ (abitare, tu)?", options: ["abito", "abiti", "abita", "abitiamo"], answer: "abiti" },
-        { question: "Lei _____ (essere) molto simpatica.", options: ["sono", "sei", "è", "siamo"], answer: "è" },
-        { question: "Noi _____ (bere) sempre acqua minerale.", options: ["bevo", "bevi", "beve", "beviamo"], answer: "beviamo" }
-    ],
+// ============================================================================================
+// INTEGRAÇÃO COM A API DO GEMINI
+// ============================================================================================
+
+// IMPORTANTE: Insira sua chave da API do Google AI Studio aqui.
+// Você pode obter uma chave em https://aistudio.google.com/
+const GEMINI_API_KEY = "AIzaSyCsZfMOgKNywH6FUgVcPEXtgRGY9wTYaPc"; // <--- INSIRA SUA CHAVE DA API AQUI
+
+const hardcodedQuestions = {
+    // Mantemos as perguntas de Libras, pois exigem conhecimento visual específico
+    // que a IA pode não gerar adequadamente para este formato de teste.
     libras: [
         { question: "Qual é o significado da sigla LIBRAS?", options: ["Língua Brasileira de Sinais", "Linguagem Brasileira para Surdos", "Sinais Brasileiros Linguísticos", "Lógica Brasileira de Sinais"], answer: "Língua Brasileira de Sinais" },
         { question: "A datilologia em Libras é usada principalmente para:", options: ["Nomes próprios e palavras sem sinal específico", "Verbos de ação", "Expressar emoções", "Todos os substantivos"], answer: "Nomes próprios e palavras sem sinal específico" },
@@ -78,6 +53,97 @@ const allQuestions = {
     ]
 };
 
+
+/**
+ * Gera o prompt para a API do Gemini para criar perguntas de nivelamento.
+ * @param {string} languageName - O nome do idioma (ex: "Inglês").
+ * @returns {string} O prompt formatado.
+ */
+function generatePrompt(languageName) {
+    return `Gere exatamente 10 perguntas de múltipla escolha para um teste de nivelamento de ${languageName}.
+As perguntas devem abranger progressivamente os níveis de A1 a C1 do Quadro Europeu Comum de Referência para Línguas (CEFR), começando com 2 perguntas A1, 2 A2, 3 B1, 2 B2 e 1 C1.
+As perguntas devem ser inteiramente no idioma ${languageName}, incluindo as opções.
+A resposta correta ("answer") deve corresponder exatamente a uma das strings no array "options".
+
+Forneça a resposta APENAS no formato JSON, como um array de objetos, sem nenhum texto ou formatação adicional antes ou depois do JSON.
+
+Exemplo de formato de saída:
+[
+    {
+    "question": "Pergunta no idioma ${languageName}",
+    "options": ["opção 1", "opção 2", "opção 3", "opção 4"],
+    "answer": "opção 2"
+    },
+]`;
+}
+
+/**
+ * Busca as perguntas de nivelamento usando a API do Gemini.
+ * @param {string} languageName - O nome do idioma para gerar as perguntas.
+ * @returns {Promise<Array<Object>>} Uma promessa que resolve com o array de perguntas.
+ */
+async function fetchQuestionsFromGemini(languageName) {
+    const prompt = generatePrompt(languageName);
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+    showLoadingState(`Gerando perguntas de ${languageName} com a IA...`);
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: prompt }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    topK: 1,
+                    topP: 1,
+                    maxOutputTokens: 2048,
+                },
+            }),
+        });
+
+        if (!response.ok) {
+            const errorBody = await response.json();
+            console.error("Erro na API do Gemini:", errorBody);
+            throw new Error(`A API retornou um erro: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.candidates || !data.candidates[0].content || !data.candidates[0].content.parts[0]) {
+            throw new Error("Resposta da API em formato inesperado.");
+        }
+
+        const jsonText = data.candidates[0].content.parts[0].text;
+
+        // Limpa a resposta para garantir que é um JSON válido
+        const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+        const questions = JSON.parse(cleanedJsonText);
+
+        if (!Array.isArray(questions) || questions.length === 0) {
+            throw new Error("A API não retornou um array de perguntas válido.");
+        }
+
+        return questions;
+
+    } catch (error) {
+        console.error("Falha ao buscar ou processar perguntas da API:", error);
+        showErrorState(`Não foi possível gerar as perguntas de ${languageName}. Por favor, verifique a chave da API e a conexão com a internet. Detalhes: ${error.message}`);
+        return null; // Retorna nulo para indicar falha
+    }
+}
+
+
+// ============================================================================================
+// LÓGICA DO TESTE
+// ============================================================================================
+
 let currentLanguageQuestions = [];
 let currentLanguageKey = "";
 let currentLanguageName = "";
@@ -85,26 +151,44 @@ let currentQuestionIndex = 0;
 let userScore = 0;
 let selectedOption = null;
 
-function initTest(languageKey, languageName) {
+/**
+ * Inicia o teste para o idioma selecionado.
+ * @param {string} languageKey - A chave do idioma (ex: "english").
+ * @param {string} languageName - O nome do idioma (ex: "Inglês").
+ */
+async function initTest(languageKey, languageName) {
     currentLanguageKey = languageKey;
     currentLanguageName = languageName;
-    currentLanguageQuestions = allQuestions[languageKey] || [];
 
-    if (currentLanguageQuestions.length === 0) {
-        // Idealmente, mostrar uma mensagem ao usuário
-        console.error("Nenhuma pergunta encontrada para o idioma:", languageKey);
+    document.getElementById('language-tests-selection').classList.add('hidden');
+    if (testAreaSection) testAreaSection.classList.remove('hidden');
+
+    let questions = null;
+
+    if (languageKey === 'libras') {
+        questions = hardcodedQuestions.libras;
+    } else {
+        if (!GEMINI_API_KEY) {
+            showErrorState("A chave da API do Gemini não foi configurada. Por favor, adicione a chave no arquivo js/testes.js.");
+            return;
+        }
+        questions = await fetchQuestionsFromGemini(languageName);
+    }
+
+    if (!questions) {
+        // A mensagem de erro já foi exibida pelas funções anteriores
         return;
     }
 
+    currentLanguageQuestions = questions;
     currentQuestionIndex = 0;
     userScore = 0;
     selectedOption = null;
 
     if (testTitleEl) testTitleEl.textContent = `Descubra seu Nível de ${currentLanguageName}`;
-    if (testSubtitleEl) testSubtitleEl.textContent = `Responda algumas perguntas sobre ${currentLanguageName} e tenha uma ideia do seu conhecimento.`;
+    if (testSubtitleEl) testSubtitleEl.textContent = `Responda às perguntas e tenha uma ideia do seu conhecimento.`;
 
-    document.getElementById('language-tests-selection').classList.add('hidden');
-    if (testAreaSection) testAreaSection.classList.remove('hidden');
+    hideLoadingAndErrorStates();
     if (testResultScreen) testResultScreen.classList.add('hidden');
     if (testQuestionScreen) testQuestionScreen.classList.remove('hidden');
     if (nextQuestionButton) nextQuestionButton.disabled = true;
@@ -115,6 +199,7 @@ function initTest(languageKey, languageName) {
 
 function displayQuestion() {
     if (currentQuestionIndex >= currentLanguageQuestions.length || !testQuestionScreen) return;
+
     const currentQuestion = currentLanguageQuestions[currentQuestionIndex];
     if (questionTextEl) questionTextEl.textContent = currentQuestion.question;
     if (optionsContainerEl) optionsContainerEl.innerHTML = '';
@@ -158,9 +243,21 @@ function handleNextQuestion() {
 
 function updateProgressBar() {
     if (!progressBarEl || currentLanguageQuestions.length === 0) return;
-    const progress = ((currentQuestionIndex + 1) / currentLanguageQuestions.length) * 100;
+    const progress = ((currentQuestionIndex) / currentLanguageQuestions.length) * 100;
     progressBarEl.style.width = `${progress}%`;
+
+    // Inicia a barra de progresso assim que a primeira questão é exibida
+    if (currentQuestionIndex === 0) {
+        setTimeout(() => {
+            const progressFirst = ((currentQuestionIndex + 1) / currentLanguageQuestions.length) * 100;
+            progressBarEl.style.width = `${progressFirst}%`;
+        }, 100);
+    } else {
+        const progressNext = ((currentQuestionIndex + 1) / currentLanguageQuestions.length) * 100;
+        progressBarEl.style.width = `${progressNext}%`;
+    }
 }
+
 
 function showResults() {
     if (testQuestionScreen) testQuestionScreen.classList.add('hidden');
@@ -174,29 +271,114 @@ function showResults() {
     let description = "";
     const percentage = currentLanguageQuestions.length > 0 ? (userScore / currentLanguageQuestions.length) * 100 : 0;
 
-    if (percentage <= 30) {
+    if (percentage <= 20) {
         level = "Iniciante (A1)";
         description = `Você está começando sua jornada em ${currentLanguageName}! Continue praticando os fundamentos para construir uma base sólida. Nossos cursos para iniciantes são perfeitos para você.`;
-    } else if (percentage <= 60) {
+    } else if (percentage <= 40) {
         level = "Básico (A2)";
         description = `Você já tem um bom conhecimento básico de ${currentLanguageName}! Consegue se comunicar em situações simples. Explore nossos cursos de nível básico para expandir seu vocabulário e gramática.`;
-    } else if (percentage <= 80) {
-        level = "Intermediário (B1)";
+    } else if (percentage <= 70) {
+        level = "Intermediário (B1/B2)";
         description = `Muito bem! Seu ${currentLanguageName} é intermediário. Você consegue entender e se fazer entender na maioria das situações do dia a dia. Nossos cursos intermediários te ajudarão a ganhar mais fluência e confiança.`;
     } else {
-        level = "Avançado (B2/C1)";
+        level = "Avançado (C1/C2)";
         description = `Excelente! Seu nível de ${currentLanguageName} é avançado. Você tem um ótimo domínio do idioma. Considere nossos cursos avançados para refinar ainda mais suas habilidades ou se preparar para certificações.`;
     }
     if (levelMessageEl) levelMessageEl.textContent = `Seu nível estimado: ${level}`;
     if (levelDescriptionEl) levelDescriptionEl.textContent = description;
 }
 
-// Adiciona o event listener para o botão "Próxima Pergunta"
-if (nextQuestionButton) {
-    nextQuestionButton.addEventListener('click', handleNextQuestion);
+// ============================================================================================
+// FUNÇÕES DE UI E EVENTOS
+// ============================================================================================
+
+function showLoadingState(message) {
+    if (testContainer) {
+        testContainer.innerHTML = `<div class="text-center p-8">
+            <i class="fas fa-spinner fa-spin text-4xl text-knn-purple mb-4"></i>
+            <p class="text-slate-600">${message}</p>
+        </div>`;
+    }
+}
+
+function showErrorState(message) {
+    if (testContainer) {
+        testContainer.innerHTML = `<div class="text-center p-8 bg-red-50 border border-red-200 rounded-lg">
+            <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+            <p class="text-red-700 font-semibold">Ocorreu um Erro</p>
+            <p class="text-red-600 mt-2">${message}</p>
+            <button id="back-to-selection-button" class="mt-6 cta-button-purple text-white font-bold py-2 px-6 rounded-lg">Voltar</button>
+        </div>`;
+        document.getElementById('back-to-selection-button').addEventListener('click', returnToSelection);
+    }
+}
+
+function hideLoadingAndErrorStates() {
+    if (testContainer) {
+        // Recria a estrutura original do container de teste
+        testContainer.innerHTML = `
+            <div id="test-question-screen" class="hidden">
+                <div class="mb-4">
+                    <p class="text-sm text-knn-purple font-semibold">Pergunta <span id="current-question-number"></span> de <span id="total-questions"></span></p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                        <div id="progress-bar" class="bg-knn-orange h-2.5 rounded-full progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <h3 id="question-text" class="text-xl md:text-2xl font-semibold text-slate-800 mb-6"></h3>
+                <div id="options-container" class="space-y-3"></div>
+                <button id="next-question-button" class="mt-8 w-full cta-button-orange text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300 disabled:opacity-50" disabled>
+                    Próxima Pergunta
+                </button>
+            </div>
+            <div id="test-result-screen" class="hidden text-center">
+                <h3 class="text-2xl md:text-3xl font-bold text-knn-purple mb-4">Resultado do Teste de <span id="result-language-name"></span></h3>
+                <p class="text-slate-700 text-lg mb-2">Você acertou <span id="score" class="font-bold"></span> de <span id="total-questions-result" class="font-bold"></span> perguntas.</p>
+                <p id="level-message" class="text-xl font-semibold text-slate-800 mb-6"></p>
+                <div id="level-description" class="text-slate-600 mb-8"></div>
+                <button id="restart-test-button" class="w-full cta-button-purple text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300">
+                    Fazer Outro Teste
+                </button>
+                <a href="#contato" class="mt-4 inline-block w-full bg-transparent border-2 border-knn-orange text-knn-orange font-bold py-3 px-8 rounded-lg text-lg hover:bg-knn-orange hover:text-white transition duration-300">
+                    Fale Conosco sobre seu Nível
+                </a>
+            </div>
+        `;
+        // Reatribui as variáveis globais aos novos elementos
+        Object.assign(window, {
+            testQuestionScreen: document.getElementById('test-question-screen'),
+            testResultScreen: document.getElementById('test-result-screen'),
+            questionTextEl: document.getElementById('question-text'),
+            optionsContainerEl: document.getElementById('options-container'),
+            nextQuestionButton: document.getElementById('next-question-button'),
+            restartTestButton: document.getElementById('restart-test-button'),
+            currentQuestionNumberEl: document.getElementById('current-question-number'),
+            totalQuestionsEl: document.getElementById('total-questions'),
+            progressBarEl: document.getElementById('progress-bar'),
+            scoreEl: document.getElementById('score'),
+            totalQuestionsResultEl: document.getElementById('total-questions-result'),
+            levelMessageEl: document.getElementById('level-message'),
+            levelDescriptionEl: document.getElementById('level-description'),
+            resultLanguageNameEl: document.getElementById('result-language-name')
+        });
+
+        // Reatribui os event listeners
+        if (nextQuestionButton) nextQuestionButton.addEventListener('click', handleNextQuestion);
+        if (restartTestButton) restartTestButton.addEventListener('click', returnToSelection);
+    }
+}
+
+function returnToSelection() {
+    hideLoadingAndErrorStates(); // Restaura a estrutura do container
+    const testSelectionSection = document.getElementById('language-tests-selection');
+    if (testAreaSection) testAreaSection.classList.add('hidden');
+    if (testSelectionSection) {
+        testSelectionSection.classList.remove('hidden');
+        testSelectionSection.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 
+// Adiciona os event listeners aos botões e links
 languageTestButtons.forEach(button => {
     button.addEventListener('click', () => {
         const langKey = button.dataset.lang;
@@ -225,15 +407,12 @@ if (startLevelTestHeroButton) {
     });
 }
 
-if (restartTestButton) {
-    restartTestButton.addEventListener('click', () => {
-        const testSelectionSection = document.getElementById('language-tests-selection');
-        if (testAreaSection) testAreaSection.classList.add('hidden');
-        if (testSelectionSection) {
-            testSelectionSection.classList.remove('hidden');
-            testSelectionSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
+// O event listener para o botão de reiniciar agora chama returnToSelection
+if (document.getElementById('restart-test-button')) {
+    document.getElementById('restart-test-button').addEventListener('click', returnToSelection);
+} else if (restartTestButton) {
+    restartTestButton.addEventListener('click', returnToSelection);
 }
+
 
 // --- Fim dos Testes de Nivelamento ---
