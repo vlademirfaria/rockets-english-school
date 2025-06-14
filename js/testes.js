@@ -34,7 +34,7 @@ const initTestLinks = document.querySelectorAll('.init-test-link');
 
 // IMPORTANTE: Insira sua chave da API do Google AI Studio aqui.
 // Você pode obter uma chave em https://aistudio.google.com/
-const GEMINI_API_KEY = "AIzaSyCsZfMOgKNywH6FUgVcPEXtgRGY9wTYaPc"; // <--- INSIRA SUA CHAVE DA API AQUI
+const GEMINI_API_KEY = "AIzaSyC_0EqDawLp4pethK8J6px3AfS6KA8nmKE"; // <--- INSIRA SUA CHAVE DA API AQUI
 
 const hardcodedQuestions = {
     // Mantemos as perguntas de Libras, pois exigem conhecimento visual específico
