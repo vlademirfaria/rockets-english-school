@@ -32,9 +32,6 @@ const initTestLinks = document.querySelectorAll('.init-test-link');
 // INTEGRAÇÃO COM A API DO GEMINI
 // ============================================================================================
 
-// IMPORTANTE: Insira sua chave da API do Google AI Studio aqui.
-// Você pode obter uma chave em https://aistudio.google.com/
-const GEMINI_API_KEY = "AIzaSyC_0EqDawLp4pethK8J6px3AfS6KA8nmKE"; // <--- INSIRA SUA CHAVE DA API AQUI
 
 const hardcodedQuestions = {
     // Mantemos as perguntas de Libras, pois exigem conhecimento visual específico
@@ -69,20 +66,23 @@ Forneça a resposta APENAS no formato JSON, como um array de objetos, sem nenhum
 
 Exemplo de formato de saída:
 [
-    {
+  {
     "question": "Pergunta no idioma ${languageName}",
     "options": ["opção 1", "opção 2", "opção 3", "opção 4"],
     "answer": "opção 2"
-    },
+  }
 ]`;
 }
 
 /**
  * Busca as perguntas de nivelamento usando a API do Gemini.
  * @param {string} languageName - O nome do idioma para gerar as perguntas.
- * @returns {Promise<Array<Object>>} Uma promessa que resolve com o array de perguntas.
+ * @returns {Promise<Array<Object>|null>} Uma promessa que resolve com o array de perguntas, ou null em caso de falha.
  */
 async function fetchQuestionsFromGemini(languageName) {
+    console.log(`[DEBUG] Iniciando busca de perguntas para: ${languageName}`);
+    console.log(`[DEBUG] Usando chave da API (início): ${GEMINI_API_KEY ? GEMINI_API_KEY.substring(0, 5) : 'NENHUMA CHAVE FORNECIDA'}`);
+
     const prompt = generatePrompt(languageName);
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -95,9 +95,7 @@ async function fetchQuestionsFromGemini(languageName) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }],
+                contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
                     temperature: 0.7,
                     topK: 1,
@@ -106,35 +104,56 @@ async function fetchQuestionsFromGemini(languageName) {
                 },
             }),
         });
+        
+        console.log("[DEBUG] Resposta da API recebida:", response);
 
         if (!response.ok) {
             const errorBody = await response.json();
-            console.error("Erro na API do Gemini:", errorBody);
-            throw new Error(`A API retornou um erro: ${response.statusText}`);
+            console.error("[DEBUG] Erro na API do Gemini (corpo da resposta):", errorBody);
+            throw new Error(`A API retornou um erro ${response.status}: ${response.statusText}`);
         }
 
         const data = await response.json();
-
+        console.log("[DEBUG] Dados da API (JSON parseado):", data);
+        
         if (!data.candidates || !data.candidates[0].content || !data.candidates[0].content.parts[0]) {
             throw new Error("Resposta da API em formato inesperado.");
         }
 
-        const jsonText = data.candidates[0].content.parts[0].text;
+        const rawText = data.candidates[0].content.parts[0].text;
+        console.log("[DEBUG] Texto bruto recebido da API:", rawText);
+        
+        // Lógica mais robusta para extrair o JSON do texto
+        const startIndex = rawText.indexOf('[');
+        const endIndex = rawText.lastIndexOf(']');
+        
+        if (startIndex === -1 || endIndex === -1) {
+            throw new Error("Não foi possível encontrar um array JSON na resposta da API.");
+        }
+        
+        const jsonOnlyString = rawText.substring(startIndex, endIndex + 1);
+        console.log("[DEBUG] String JSON extraída para o parse:", jsonOnlyString);
 
-        // Limpa a resposta para garantir que é um JSON válido
-        const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
-
-        const questions = JSON.parse(cleanedJsonText);
-
+        const questions = JSON.parse(jsonOnlyString);
+        
         if (!Array.isArray(questions) || questions.length === 0) {
             throw new Error("A API não retornou um array de perguntas válido.");
         }
-
+        
+        console.log("[DEBUG] Perguntas processadas com sucesso:", questions);
         return questions;
 
     } catch (error) {
-        console.error("Falha ao buscar ou processar perguntas da API:", error);
-        showErrorState(`Não foi possível gerar as perguntas de ${languageName}. Por favor, verifique a chave da API e a conexão com a internet. Detalhes: ${error.message}`);
+        console.error("[DEBUG] Falha no bloco try-catch de fetchQuestionsFromGemini:", error);
+        let errorMessage = `Não foi possível gerar as perguntas de ${languageName}. Verifique a chave da API e a conexão com a internet.`;
+        
+        if (error instanceof TypeError) {
+             errorMessage += " Isso pode ser um erro de rede ou CORS. Verifique o console do navegador para mais detalhes (pressione F12).";
+        } else {
+            errorMessage += ` Detalhes: ${error.message}`;
+        }
+
+        showErrorState(errorMessage);
         return null; // Retorna nulo para indicar falha
     }
 }
@@ -159,10 +178,10 @@ let selectedOption = null;
 async function initTest(languageKey, languageName) {
     currentLanguageKey = languageKey;
     currentLanguageName = languageName;
-
+    
     document.getElementById('language-tests-selection').classList.add('hidden');
     if (testAreaSection) testAreaSection.classList.remove('hidden');
-
+    
     let questions = null;
 
     if (languageKey === 'libras') {
@@ -174,12 +193,12 @@ async function initTest(languageKey, languageName) {
         }
         questions = await fetchQuestionsFromGemini(languageName);
     }
-
+    
     if (!questions) {
         // A mensagem de erro já foi exibida pelas funções anteriores
         return;
     }
-
+    
     currentLanguageQuestions = questions;
     currentQuestionIndex = 0;
     userScore = 0;
@@ -187,7 +206,7 @@ async function initTest(languageKey, languageName) {
 
     if (testTitleEl) testTitleEl.textContent = `Descubra seu Nível de ${currentLanguageName}`;
     if (testSubtitleEl) testSubtitleEl.textContent = `Responda às perguntas e tenha uma ideia do seu conhecimento.`;
-
+    
     hideLoadingAndErrorStates();
     if (testResultScreen) testResultScreen.classList.add('hidden');
     if (testQuestionScreen) testQuestionScreen.classList.remove('hidden');
@@ -199,7 +218,7 @@ async function initTest(languageKey, languageName) {
 
 function displayQuestion() {
     if (currentQuestionIndex >= currentLanguageQuestions.length || !testQuestionScreen) return;
-
+    
     const currentQuestion = currentLanguageQuestions[currentQuestionIndex];
     if (questionTextEl) questionTextEl.textContent = currentQuestion.question;
     if (optionsContainerEl) optionsContainerEl.innerHTML = '';
@@ -245,17 +264,12 @@ function updateProgressBar() {
     if (!progressBarEl || currentLanguageQuestions.length === 0) return;
     const progress = ((currentQuestionIndex) / currentLanguageQuestions.length) * 100;
     progressBarEl.style.width = `${progress}%`;
-
-    // Inicia a barra de progresso assim que a primeira questão é exibida
-    if (currentQuestionIndex === 0) {
-        setTimeout(() => {
-            const progressFirst = ((currentQuestionIndex + 1) / currentLanguageQuestions.length) * 100;
-            progressBarEl.style.width = `${progressFirst}%`;
-        }, 100);
-    } else {
-        const progressNext = ((currentQuestionIndex + 1) / currentLanguageQuestions.length) * 100;
-        progressBarEl.style.width = `${progressNext}%`;
-    }
+    
+    // Anima a barra de progresso para a posição correta
+    setTimeout(() => {
+       const progressNext = ((currentQuestionIndex + 1) / currentLanguageQuestions.length) * 100;
+       progressBarEl.style.width = `${progressNext}%`;
+    }, 100);
 }
 
 
@@ -368,13 +382,14 @@ function hideLoadingAndErrorStates() {
 }
 
 function returnToSelection() {
-    hideLoadingAndErrorStates(); // Restaura a estrutura do container
     const testSelectionSection = document.getElementById('language-tests-selection');
     if (testAreaSection) testAreaSection.classList.add('hidden');
     if (testSelectionSection) {
         testSelectionSection.classList.remove('hidden');
         testSelectionSection.scrollIntoView({ behavior: 'smooth' });
     }
+    // Não é necessário chamar hideLoadingAndErrorStates() aqui,
+    // pois a estrutura será reconstruída na próxima chamada de initTest()
 }
 
 
@@ -406,13 +421,5 @@ if (startLevelTestHeroButton) {
         }
     });
 }
-
-// O event listener para o botão de reiniciar agora chama returnToSelection
-if (document.getElementById('restart-test-button')) {
-    document.getElementById('restart-test-button').addEventListener('click', returnToSelection);
-} else if (restartTestButton) {
-    restartTestButton.addEventListener('click', returnToSelection);
-}
-
 
 // --- Fim dos Testes de Nivelamento ---
