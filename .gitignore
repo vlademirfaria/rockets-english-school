@@ -1,7 +1,7 @@
 # Ignorar arquivos de configuração e dependências
 
 # Adicione esta linha para ignorar o arquivo com a sua chave de API
-js/config.js
+
 
 # Outras pastas e arquivos comuns a ignorar
 node_modules/
