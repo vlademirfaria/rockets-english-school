@@ -2,23 +2,29 @@
 <html lang="pt-BR">
 
 <head>
+    <!-- Configurações básicas do documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rocket Global School - Aprenda Idiomas Online</title>
     <link rel="icon" type="image/x-icon" href="/images/rocket_global_school.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Inclusão de bibliotecas e folhas de estilo externas -->
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Framework CSS Tailwind -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"> <!-- Fonte Poppins do Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Ícones do Font Awesome -->
+    <link rel="stylesheet" href="css/styles.css"> <!-- Folha de estilo personalizada -->
 </head>
 
 <body class="bg-slate-50 text-slate-800">
 
+    <!-- Cabeçalho da página, fixo no topo -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo da escola -->
             <a href="#" class="flex items-center space-x-2">
                 <img src="images/logo.png" alt="Rocket Global School Logo" class="custom-logo">
             </a>
+            <!-- Navegação principal para desktops -->
             <nav class="hidden md:flex space-x-6 items-center">
                 <a href="#idiomas" class="text-slate-600 hover:text-knn-purple transition duration-300">Idiomas</a>
                 <a href="#como-funciona" class="text-slate-600 hover:text-knn-purple transition duration-300">Como Funciona</a>
@@ -27,10 +33,12 @@
                 <a href="#contato" class="text-slate-600 hover:text-knn-purple transition duration-300">Contato</a>
                 <a href="#matricular" class="bg-knn-purple hover:bg-knn-purple-dark text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-sm hover:shadow-md">Matricule-se</a>
             </nav>
+            <!-- Botão do menu para dispositivos móveis -->
             <button id="mobile-menu-button" class="md:hidden text-slate-600 hover:text-knn-purple focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
+        <!-- Menu de navegação para dispositivos móveis (inicialmente oculto) -->
         <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
             <a href="#idiomas" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Idiomas</a>
             <a href="#como-funciona" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Como Funciona</a>
@@ -41,6 +49,7 @@
         </div>
     </header>
 
+    <!-- Seção Hero: A primeira coisa que o usuário vê -->
     <section id="hero-section" class="hero-bg text-white py-24 md:py-36">
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Decole no aprendizado de idiomas <br
@@ -48,6 +57,7 @@
             <p class="text-lg md:text-2xl mb-10 max-w-3xl mx-auto font-light">Aulas online ao vivo, metodologia
                 inovadora e a flexibilidade que você precisa para falar inglês, espanhol, italiano, libras e muito mais.
             </p>
+            <!-- Botões de chamada para ação (CTA) -->
             <div class="space-y-4 md:space-y-0 md:space-x-4">
                 <a href="#idiomas"
                     class="cta-button-purple text-white font-bold py-4 px-10 rounded-lg text-lg shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105 inline-block">
@@ -61,12 +71,14 @@
         </div>
     </section>
 
+    <!-- Seção de Seleção de Teste de Idioma -->
     <section id="language-tests-selection" class="py-16 md:py-24 bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Escolha o
                 Idioma para Testar seu Nível</h2>
             <p class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Descubra seu conhecimento em um dos
                 idiomas que oferecemos. O teste é rápido e te dará uma boa ideia de onde começar!</p>
+            <!-- Grid com os botões para iniciar o teste de cada idioma -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <button data-lang="english" data-lang-name="Inglês"
                     class="language-test-button bg-knn-purple text-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center">
@@ -92,6 +104,7 @@
         </div>
     </section>
 
+    <!-- Seção da Área de Teste (inicialmente oculta, controlada por JS) -->
     <section id="test-area" class="py-16 md:py-24 bg-slate-100 hidden">
         <div class="container mx-auto px-6">
             <h2 id="test-title"
@@ -99,46 +112,22 @@
             <p id="test-subtitle" class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Responda algumas
                 perguntas e tenha uma ideia do seu conhecimento.</p>
 
+            <!-- Container onde o teste (perguntas ou resultado) será renderizado pelo JavaScript -->
             <div id="test-container" class="bg-white p-6 md:p-10 rounded-xl shadow-2xl max-w-2xl mx-auto">
+                <!-- Tela de Perguntas (gerada dinamicamente pelo JS) -->
                 <div id="test-question-screen" class="hidden">
-                    <div class="mb-4">
-                        <p class="text-sm text-knn-purple font-semibold">Pergunta <span
-                                id="current-question-number"></span> de <span id="total-questions"></span></p>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1">
-                            <div id="progress-bar" class="bg-knn-orange h-2.5 rounded-full progress-bar-fill"
-                                style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <h3 id="question-text" class="text-xl md:text-2xl font-semibold text-slate-800 mb-6"></h3>
-                    <div id="options-container" class="space-y-3"></div>
-                    <button id="next-question-button"
-                        class="mt-8 w-full cta-button-orange text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300 disabled:opacity-50"
-                        disabled>
-                        Próxima Pergunta
-                    </button>
+                    <!-- ... conteúdo das perguntas ... -->
                 </div>
 
+                <!-- Tela de Resultado (gerada dinamicamente pelo JS) -->
                 <div id="test-result-screen" class="hidden text-center">
-                    <h3 class="text-2xl md:text-3xl font-bold text-knn-purple mb-4">Resultado do Teste de <span
-                            id="result-language-name"></span></h3>
-                    <p class="text-slate-700 text-lg mb-2">Você acertou <span id="score" class="font-bold"></span> de
-                        <span id="total-questions-result" class="font-bold"></span> perguntas.
-                    </p>
-                    <p id="level-message" class="text-xl font-semibold text-slate-800 mb-6"></p>
-                    <div id="level-description" class="text-slate-600 mb-8"></div>
-                    <button id="restart-test-button"
-                        class="w-full cta-button-purple text-white font-bold py-3 px-8 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300">
-                        Fazer Outro Teste
-                    </button>
-                    <a href="#contato"
-                        class="mt-4 inline-block w-full bg-transparent border-2 border-knn-orange text-knn-orange font-bold py-3 px-8 rounded-lg text-lg hover:bg-knn-orange hover:text-white transition duration-300">
-                        Fale Conosco sobre seu Nível
-                    </a>
+                    <!-- ... conteúdo do resultado ... -->
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Seção "Por que nós?": Apresenta os diferenciais da escola -->
     <section id="why-us" class="py-16 md:py-24 bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Por que
@@ -146,6 +135,7 @@
             <p class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Descubra as vantagens de estudar na
                 Rocket Global School e impulsione sua comunicação global.</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                <!-- Item 1: Aulas Online -->
                 <div class="bg-slate-50 p-8 rounded-xl shadow-lg hover:shadow-purple-200/50 transition duration-300">
                     <div class="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-6 mx-auto">
                         <i class="fas fa-laptop-house text-3xl text-knn-purple"></i>
@@ -154,6 +144,7 @@
                     <p class="text-slate-600 text-center">Interaja em tempo real com professores e colegas, como se
                         estivesse em uma sala de aula presencial.</p>
                 </div>
+                <!-- Item 2: Professores -->
                 <div class="bg-slate-50 p-8 rounded-xl shadow-lg hover:shadow-purple-200/50 transition duration-300">
                     <div class="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-6 mx-auto">
                         <i class="fas fa-chalkboard-teacher text-3xl text-knn-purple"></i>
@@ -162,6 +153,7 @@
                     <p class="text-slate-600 text-center">Nossa equipe é formada por educadores experientes e
                         apaixonados por ensinar idiomas.</p>
                 </div>
+                <!-- Item 3: Metodologia -->
                 <div class="bg-slate-50 p-8 rounded-xl shadow-lg hover:shadow-purple-200/50 transition duration-300">
                     <div class="flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-6 mx-auto">
                         <i class="fas fa-lightbulb text-3xl text-knn-purple"></i>
@@ -174,6 +166,7 @@
         </div>
     </section>
 
+    <!-- Seção de Idiomas: Cards com os cursos oferecidos -->
     <section id="idiomas" class="py-16 md:py-24 bg-slate-100">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Idiomas
@@ -181,6 +174,7 @@
             <p class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Escolha o idioma que vai abrir novas
                 portas para o seu futuro pessoal e profissional.</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card Inglês -->
                 <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
                     <img src="images/ingles.jpg" alt="Curso de Inglês"
                         class="w-full h-48 object-cover">
@@ -193,6 +187,7 @@
                             seu nível <i class="fas fa-angle-right ml-1"></i></a>
                     </div>
                 </div>
+                <!-- Card Espanhol -->
                 <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
                     <img src="images/espanhol.jpg" alt="Curso de Espanhol"
                         class="w-full h-48 object-cover">
@@ -205,6 +200,7 @@
                             seu nível <i class="fas fa-angle-right ml-1"></i></a>
                     </div>
                 </div>
+                <!-- Card Italiano -->
                 <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
                     <img src="images/italiano.jpg" alt="Curso de Italiano"
                         class="w-full h-48 object-cover">
@@ -217,6 +213,7 @@
                             seu nível <i class="fas fa-angle-right ml-1"></i></a>
                     </div>
                 </div>
+                <!-- Card Libras -->
                 <div class="language-card bg-white rounded-xl shadow-lg overflow-hidden">
                     <img src="images/libras.jpg" alt="Curso de Libras"
                         class="w-full h-48 object-cover">
@@ -233,6 +230,7 @@
         </div>
     </section>
 
+    <!-- Seção "Como Funciona": Passo a passo da jornada do aluno -->
     <section id="como-funciona" class="py-16 md:py-24 bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-800 mb-4 section-title-underline">Sua
@@ -240,10 +238,12 @@
             <p class="text-center text-slate-600 mb-12 md:mb-16 max-w-2xl mx-auto">Começar a aprender um novo idioma na
                 Rocket Global School é simples e rápido.</p>
             <div class="relative">
+                <!-- Linha de conexão (visível apenas em telas maiores) -->
                 <div
                     class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-purple-200 transform -translate-y-1/2 -z-10">
                 </div>
                 <div class="grid md:grid-cols-3 gap-10 md:gap-8 relative">
+                    <!-- Passo 1 -->
                     <div class="flex flex-col items-center text-center p-6 bg-slate-50 rounded-xl shadow-md">
                         <div
                             class="flex items-center justify-center w-20 h-20 bg-knn-purple text-white rounded-full mb-6 text-3xl font-bold shadow-lg">
@@ -251,6 +251,7 @@
                         <h3 class="text-xl font-semibold text-knn-purple mb-2">Escolha seu Idioma</h3>
                         <p class="text-slate-600">Navegue por nossos cursos e encontre o idioma que mais te inspira.</p>
                     </div>
+                    <!-- Passo 2 -->
                     <div class="flex flex-col items-center text-center p-6 bg-slate-50 rounded-xl shadow-md">
                         <div
                             class="flex items-center justify-center w-20 h-20 bg-knn-purple text-white rounded-full mb-6 text-3xl font-bold shadow-lg">
@@ -259,6 +260,7 @@
                         <p class="text-slate-600">Agende uma aula experimental gratuita para conhecer nossa metodologia
                             e professores.</p>
                     </div>
+                    <!-- Passo 3 -->
                     <div class="flex flex-col items-center text-center p-6 bg-slate-50 rounded-xl shadow-md">
                         <div
                             class="flex items-center justify-center w-20 h-20 bg-knn-purple text-white rounded-full mb-6 text-3xl font-bold shadow-lg">
@@ -272,6 +274,7 @@
         </div>
     </section>
 
+    <!-- Seção de Depoimentos -->
     <section id="depoimentos" class="py-16 md:py-24 bg-knn-purple text-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 section-title-underline after:bg-orange-300">O
@@ -279,6 +282,7 @@
             <p class="text-center text-purple-100 mb-12 md:mb-16 max-w-2xl mx-auto">A satisfação dos nossos foguetes é
                 nossa maior recompensa!</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Depoimento 1 -->
                 <div class="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg">
                     <img src="https://placehold.co/80x80/FFFFFF/54008B?text=A" alt="Aluna Ana"
                         class="w-20 h-20 rounded-full mx-auto mb-6 border-4 border-purple-300">
@@ -287,6 +291,7 @@
                     <h4 class="font-semibold text-lg text-center">Ana Silva</h4>
                     <p class="text-sm text-purple-200 text-center">Aluna de Inglês Avançado</p>
                 </div>
+                <!-- Depoimento 2 -->
                 <div class="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg">
                     <img src="https://placehold.co/80x80/FFFFFF/54008B?text=C" alt="Aluno Carlos"
                         class="w-20 h-20 rounded-full mx-auto mb-6 border-4 border-purple-300">
@@ -295,6 +300,7 @@
                     <h4 class="font-semibold text-lg text-center">Carlos Pereira</h4>
                     <p class="text-sm text-purple-200 text-center">Aluno de Italiano Intermediário</p>
                 </div>
+                <!-- Depoimento 3 -->
                 <div class="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg md:col-span-2 lg:col-span-1"> <img
                         src="https://placehold.co/80x80/FFFFFF/54008B?text=M" alt="Aluna Mariana"
                         class="w-20 h-20 rounded-full mx-auto mb-6 border-4 border-purple-300">
@@ -307,6 +313,7 @@
         </div>
     </section>
 
+    <!-- Seção de Contato -->
     <section id="contato" class="py-16 md:py-24 bg-slate-100">
         <div class="container mx-auto px-6">
             <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl max-w-3xl mx-auto text-center">
@@ -314,6 +321,7 @@
                     Decolar? <i class="fas fa-rocket text-knn-purple ml-2"></i></h2>
                 <p class="text-slate-600 mb-8 text-lg">Fale conosco, agende sua aula experimental gratuita ou tire suas
                     dúvidas. Nossa equipe está pronta para te ajudar a alcançar a fluência!</p>
+                <!-- Formulário de Contato -->
                 <form id="contact-form" class="space-y-6">
                     <div>
                         <label for="name" class="sr-only">Nome</label>
@@ -350,14 +358,17 @@
                         Enviar Mensagem <i class="fas fa-paper-plane ml-2"></i>
                     </button>
                 </form>
+                <!-- Feedback do formulário (controlado por JS) -->
                 <div id="form-feedback" class="mt-6 text-center"></div>
             </div>
         </div>
     </section>
 
+    <!-- Rodapé -->
     <footer class="bg-slate-800 text-slate-300 py-12">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Coluna 1: Sobre -->
                 <div>
                     <h5 class="text-xl font-semibold text-white mb-4">Rocket Global School</h5>
                     <p class="text-sm">Sua plataforma online para aprender idiomas e alcançar novos horizontes.</p>
@@ -372,6 +383,7 @@
                                 class="fab fa-youtube text-xl"></i></a>
                     </div>
                 </div>
+                <!-- Coluna 2: Links Rápidos -->
                 <div>
                     <h5 class="text-lg font-semibold text-white mb-4">Links Rápidos</h5>
                     <ul class="space-y-2 text-sm">
@@ -388,6 +400,7 @@
                                 Abertas</a></li>
                     </ul>
                 </div>
+                <!-- Coluna 3: Contato -->
                 <div>
                     <h5 class="text-lg font-semibold text-white mb-4">Contato</h5>
                     <ul class="space-y-2 text-sm">
@@ -396,6 +409,7 @@
                         <li><i class="fas fa-info-circle mr-2 text-purple-400"></i> FAQs</li>
                     </ul>
                 </div>
+                <!-- Coluna 4: Legal -->
                 <div>
                     <h5 class="text-lg font-semibold text-white mb-4">Legal</h5>
                     <ul class="space-y-2 text-sm">
@@ -405,6 +419,7 @@
                     </ul>
                 </div>
             </div>
+            <!-- Direitos autorais e créditos -->
             <div class="border-t border-slate-700 pt-8 text-center text-sm">
                 <p>&copy; <span id="currentYear"></span> Rocket Global School. Todos os direitos reservados.</p>
                 <p>Feito com <i class="fas fa-heart text-red-500"></i> e <i class="fas fa-mug-hot text-orange-400"></i>
@@ -412,6 +427,7 @@
             </div>
         </div>
     </footer>
+    <!-- Inclusão dos scripts JavaScript antes do fechamento do body -->
     <script src="js/mobile.js"></script>
     <script src="js/config.js"></script>
     <script src="js/testes.js"></script>

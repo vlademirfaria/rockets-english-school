@@ -1,53 +1,58 @@
+/* Estilos globais para o corpo da página */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif; /* Define a fonte principal do site */
 }
 
+/* Estilo para a seção "hero" (principal) */
 .hero-bg {
+    /* Cria um gradiente roxo semi-transparente sobre a imagem de fundo */
     background-image: linear-gradient(to right, rgba(84, 0, 139, 0.85), rgba(109, 40, 217, 0.85)), url(../images/mulher-de-tiro-medio-lendo-na-cafeteria.jpg);
-    background-size: cover;
-    background-position: center;
+    background-size: cover; /* Garante que a imagem cubra toda a área */
+    background-position: center; /* Centraliza a imagem */
 }
 
+/* Estilo para os cards de idiomas */
 .language-card {
+    /* Adiciona uma transição suave para as propriedades transform e box-shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Efeito de hover para os cards de idiomas */
 .language-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-10px); /* Move o card 10px para cima */
+    /* Adiciona uma sombra mais pronunciada para dar um efeito de "elevação" */
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* Estilos para botões de chamada para ação (CTA) */
 .cta-button-purple {
-    background-color: #54008B;
-    /* Roxo KNN */
+    background-color: #54008B; /* Cor roxa principal */
 }
 
 .cta-button-purple:hover {
-    background-color: #41006A;
-    /* Roxo KNN mais escuro */
+    background-color: #41006A; /* Cor roxa mais escura no hover */
 }
 
 .cta-button-orange {
-    background-color: #FF6600;
-    /* Laranja KNN */
+    background-color: #FF6600; /* Cor laranja principal */
 }
 
 .cta-button-orange:hover {
-    background-color: #E65C00;
-    /* Laranja KNN mais escuro */
+    background-color: #E65C00; /* Cor laranja mais escura no hover */
 }
 
+/* Estilo para o sublinhado dos títulos de seção */
 .section-title-underline::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background-color: #FF6600;
-    /* Laranja KNN */
-    margin: 8px auto 0;
-    border-radius: 2px;
+    content: ''; /* Necessário para pseudo-elementos */
+    display: block; /* Transforma em um elemento de bloco */
+    width: 80px; /* Largura do sublinhado */
+    height: 4px; /* Altura do sublinhado */
+    background-color: #FF6600; /* Cor laranja */
+    margin: 8px auto 0; /* Centraliza o sublinhado */
+    border-radius: 2px; /* Arredonda as bordas */
 }
 
+/* Classes de utilidade para cores personalizadas */
 .text-knn-purple {
     color: #54008B;
 }
@@ -72,40 +77,40 @@ body {
     background-color: #E65C00;
 }
 
+/* Estilos para as opções de resposta no teste de nivelamento */
 .question-option {
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease; /* Transição suave da cor de fundo */
 }
 
 .question-option:hover {
-    background-color: #f3e8ff;
-    /* Roxo claro para hover */
+    background-color: #f3e8ff; /* Cor roxa clara ao passar o mouse */
 }
 
+/* Estilo para a opção selecionada no teste */
 .question-option.selected {
-    background-color: #c084fc;
-    /* Tailwind purple-500 (ajuste se necessário) */
-    color: white;
-    border-color: #a855f7;
-    /* Tailwind purple-600 (ajuste se necessário) */
+    background-color: #c084fc; /* Cor roxa mais forte */
+    color: white; /* Texto branco para contraste */
+    border-color: #a855f7; /* Cor da borda */
 }
 
+/* Estilo para a barra de progresso do teste */
 .progress-bar-fill {
-    transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out; /* Animação suave ao mudar a largura */
 }
 
+/* Estilo para a logo no cabeçalho */
 .custom-logo {
-    /* Classe para a sua logo */
-    height: 100px;
-    /* Ajuste a altura conforme necessário */
-    width: auto;
-    /* Mantém a proporção */
+    height: 100px; /* Altura da logo */
+    width: auto; /* Largura automática para manter a proporção */
 }
 
+/* Estilo para os botões de seleção de teste de idioma */
 .language-test-button {
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Transição suave para todas as propriedades */
 }
 
 .language-test-button:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* Move o botão 5px para cima */
+    /* Adiciona uma sombra para dar profundidade */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }

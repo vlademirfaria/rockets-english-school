@@ -1,4 +1,12 @@
-// --- Testes de Nivelamento ---
+// ============================================================================================
+// SCRIPT PARA A LÓGICA DOS TESTES DE NIVELAMENTO
+// - Integração com a API do Google Gemini para gerar perguntas
+// - Gerenciamento do estado do teste (início, perguntas, resultado)
+// - Renderização da interface do teste
+// - Cálculo de pontuação e exibição do nível do usuário
+// ============================================================================================
+
+// --- Seleção de Elementos do DOM ---
 const testAreaSection = document.getElementById('test-area');
 const testTitleEl = document.getElementById('test-title');
 const testSubtitleEl = document.getElementById('test-subtitle');
@@ -7,32 +15,21 @@ const languageTestButtons = document.querySelectorAll('.language-test-button');
 const startLevelTestHeroButton = document.getElementById('start-level-test-hero-button');
 const initTestLinks = document.querySelectorAll('.init-test-link');
 
-// Variáveis para os elementos do teste que serão recriados dinamicamente
-// São declaradas com 'let' porque os seus valores serão reatribuídos
-let testQuestionScreen;
-let testResultScreen;
-let questionTextEl;
-let optionsContainerEl;
-let nextQuestionButton;
-let restartTestButton;
-let currentQuestionNumberEl;
-let totalQuestionsEl;
-let progressBarEl;
-let scoreEl;
-let totalQuestionsResultEl;
-let levelMessageEl;
-let levelDescriptionEl;
-let resultLanguageNameEl;
+// Variáveis de estado do teste que serão atualizadas dinamicamente.
+// São declaradas com 'let' porque seus valores serão reatribuídos quando a UI for reconstruída.
+let testQuestionScreen, testResultScreen, questionTextEl, optionsContainerEl, nextQuestionButton,
+    restartTestButton, currentQuestionNumberEl, totalQuestionsEl, progressBarEl, scoreEl,
+    totalQuestionsResultEl, levelMessageEl, levelDescriptionEl, resultLanguageNameEl;
 
 // ============================================================================================
 // INTEGRAÇÃO COM A API DO GEMINI
 // ============================================================================================
 
-// A constante GEMINI_API_KEY é carregada a partir do arquivo js/config.js
-// Certifique-se de que js/config.js é incluído no seu HTML ANTES deste arquivo.
+// A constante GEMINI_API_KEY é carregada a partir do arquivo js/config.js.
+// É crucial que js/config.js seja incluído no HTML ANTES deste arquivo.
 
+// Perguntas "hardcoded" (fixas) para Libras, já que a IA pode não ser ideal para gerar perguntas sobre sinais específicos.
 const hardcodedQuestions = {
-    // Mantemos as perguntas de Libras
     libras: [
         { question: "Qual é o significado da sigla LIBRAS?", options: ["Língua Brasileira de Sinais", "Linguagem Brasileira para Surdos", "Sinais Brasileiros Linguísticos", "Lógica Brasileira de Sinais"], answer: "Língua Brasileira de Sinais" },
         { question: "A datilologia em Libras é usada principalmente para:", options: ["Nomes próprios e palavras sem sinal específico", "Verbos de ação", "Expressar emoções", "Todos os substantivos"], answer: "Nomes próprios e palavras sem sinal específico" },
@@ -47,11 +44,10 @@ const hardcodedQuestions = {
     ]
 };
 
-
 /**
- * Gera o prompt para a API do Gemini.
- * @param {string} languageName - O nome do idioma.
- * @returns {string} O prompt formatado.
+ * Gera o prompt (instrução) para a API do Gemini criar as perguntas.
+ * @param {string} languageName - O nome do idioma (ex: "Inglês").
+ * @returns {string} O prompt formatado para a API.
  */
 function generatePrompt(languageName) {
     return `Gere exatamente 10 perguntas de múltipla escolha para um teste de nivelamento de ${languageName}.
@@ -72,9 +68,9 @@ Exemplo de formato de saída:
 }
 
 /**
- * Busca as perguntas de nivelamento usando a API do Gemini.
+ * Faz a chamada à API do Gemini para buscar as perguntas.
  * @param {string} languageName - O nome do idioma.
- * @returns {Promise<Array<Object>|null>} Uma promessa que resolve com o array de perguntas, ou null em caso de falha.
+ * @returns {Promise<Array<Object>|null>} Uma promessa que resolve com o array de perguntas, ou null em caso de erro.
  */
 async function fetchQuestionsFromGemini(languageName) {
     showLoadingState(`Gerando perguntas de ${languageName} com a IA...`);
@@ -86,7 +82,7 @@ async function fetchQuestionsFromGemini(languageName) {
             body: JSON.stringify({
                 contents: [{ parts: [{ text: generatePrompt(languageName) }] }],
                 generationConfig: {
-                    temperature: 0.7,
+                    temperature: 0.7, // Controla a "criatividade" da IA
                     topK: 1,
                     topP: 1,
                     maxOutputTokens: 2048
@@ -105,6 +101,7 @@ async function fetchQuestionsFromGemini(languageName) {
             throw new Error("Resposta da API em formato inesperado.");
         }
 
+        // Limpa a resposta da API para garantir que temos apenas o JSON
         const rawText = data.candidates[0].content.parts[0].text;
         const startIndex = rawText.indexOf('[');
         const endIndex = rawText.lastIndexOf(']');
@@ -127,11 +124,11 @@ async function fetchQuestionsFromGemini(languageName) {
     }
 }
 
-
 // ============================================================================================
-// LÓGICA DO TESTE
+// LÓGICA PRINCIPAL DO TESTE
 // ============================================================================================
 
+// Variáveis de estado do teste
 let currentLanguageQuestions = [];
 let currentLanguageKey = "";
 let currentLanguageName = "";
@@ -140,22 +137,25 @@ let userScore = 0;
 let selectedOption = null;
 
 /**
- * Inicia o teste para o idioma selecionado.
- * @param {string} languageKey - A chave do idioma.
- * @param {string} languageName - O nome do idioma.
+ * Função principal que inicia o teste.
+ * @param {string} languageKey - A chave do idioma (ex: "english").
+ * @param {string} languageName - O nome do idioma (ex: "Inglês").
  */
 async function initTest(languageKey, languageName) {
     currentLanguageKey = languageKey;
     currentLanguageName = languageName;
 
+    // Mostra a seção de teste e esconde a de seleção
     testAreaSection.classList.remove('hidden');
     document.getElementById('language-tests-selection').classList.add('hidden');
 
     let questions = null;
 
+    // Usa as perguntas fixas para Libras, ou busca na API para os outros idiomas
     if (languageKey === 'libras') {
         questions = hardcodedQuestions.libras;
     } else {
+        // Verifica se a chave da API foi configurada
         if (typeof GEMINI_API_KEY === 'undefined' || !GEMINI_API_KEY) {
             showErrorState("A chave da API do Gemini não foi configurada. Verifique o arquivo js/config.js.");
             return;
@@ -163,32 +163,40 @@ async function initTest(languageKey, languageName) {
         questions = await fetchQuestionsFromGemini(languageName);
     }
 
-    if (!questions) return; // Mensagem de erro já exibida por fetchQuestionsFromGemini
+    if (!questions) return; // Se a busca falhar, interrompe (a mensagem de erro já foi mostrada)
 
+    // Reseta o estado do teste
     currentLanguageQuestions = questions;
     currentQuestionIndex = 0;
     userScore = 0;
     selectedOption = null;
 
+    // Atualiza os títulos
     testTitleEl.textContent = `Descubra seu Nível de ${currentLanguageName}`;
     testSubtitleEl.textContent = `Responda às perguntas e tenha uma ideia do seu conhecimento.`;
 
+    // Constrói a UI do teste e exibe a primeira pergunta
     buildTestUI();
     testResultScreen.classList.add('hidden');
     testQuestionScreen.classList.remove('hidden');
     nextQuestionButton.disabled = true;
 
     displayQuestion();
+    // Rola a página para a área do teste
     testAreaSection.scrollIntoView({ behavior: 'smooth' });
 }
 
+/**
+ * Exibe a pergunta atual na tela.
+ */
 function displayQuestion() {
     if (currentQuestionIndex >= currentLanguageQuestions.length) return;
 
     const currentQuestion = currentLanguageQuestions[currentQuestionIndex];
     questionTextEl.textContent = currentQuestion.question;
-    optionsContainerEl.innerHTML = '';
+    optionsContainerEl.innerHTML = ''; // Limpa as opções anteriores
 
+    // Cria um botão para cada opção de resposta
     currentQuestion.options.forEach(option => {
         const button = document.createElement('button');
         button.textContent = option;
@@ -197,45 +205,64 @@ function displayQuestion() {
         optionsContainerEl.appendChild(button);
     });
 
+    // Atualiza os contadores e a barra de progresso
     currentQuestionNumberEl.textContent = currentQuestionIndex + 1;
     totalQuestionsEl.textContent = currentLanguageQuestions.length;
     updateProgressBar();
 }
 
+/**
+ * Chamada quando o usuário seleciona uma opção.
+ * @param {HTMLElement} buttonEl - O elemento do botão clicado.
+ * @param {string} option - O texto da opção selecionada.
+ */
 function selectOption(buttonEl, option) {
+    // Remove a seleção de outras opções e marca a clicada
     const allOptions = optionsContainerEl.querySelectorAll('.question-option');
     allOptions.forEach(btn => btn.classList.remove('selected'));
     buttonEl.classList.add('selected');
+
     selectedOption = option;
-    nextQuestionButton.disabled = false;
+    nextQuestionButton.disabled = false; // Habilita o botão "Próxima Pergunta"
 }
 
+/**
+ * Processa a resposta e avança para a próxima pergunta ou para a tela de resultados.
+ */
 function handleNextQuestion() {
+    // Verifica se a resposta está correta e incrementa a pontuação
     if (selectedOption === currentLanguageQuestions[currentQuestionIndex].answer) {
         userScore++;
     }
+
     currentQuestionIndex++;
     selectedOption = null;
-    nextQuestionButton.disabled = true;
+    nextQuestionButton.disabled = true; // Desabilita o botão novamente
 
     if (currentQuestionIndex < currentLanguageQuestions.length) {
-        displayQuestion();
+        displayQuestion(); // Mostra a próxima pergunta
     } else {
-        showResults();
+        showResults(); // Fim do teste, mostra os resultados
     }
 }
 
+/**
+ * Atualiza a largura da barra de progresso.
+ */
 function updateProgressBar() {
     if (!progressBarEl || currentLanguageQuestions.length === 0) return;
     const progress = ((currentQuestionIndex + 1) / currentLanguageQuestions.length) * 100;
     progressBarEl.style.width = `${progress}%`;
 }
 
-
+/**
+ * Exibe a tela de resultados com o nível e a descrição.
+ */
 function showResults() {
     testQuestionScreen.classList.add('hidden');
     testResultScreen.classList.remove('hidden');
 
+    // Preenche os dados do resultado
     scoreEl.textContent = userScore;
     totalQuestionsResultEl.textContent = currentLanguageQuestions.length;
     resultLanguageNameEl.textContent = currentLanguageName;
@@ -243,6 +270,7 @@ function showResults() {
     let level, description;
     const percentage = currentLanguageQuestions.length > 0 ? (userScore / currentLanguageQuestions.length) * 100 : 0;
 
+    // Define o nível com base na porcentagem de acertos
     if (percentage <= 20) {
         level = "Iniciante (A1)";
         description = `Você está a começar a sua jornada em ${currentLanguageName}! Continue a praticar os fundamentos para construir uma base sólida. Os nossos cursos para iniciantes são perfeitos para si.`;
@@ -261,9 +289,13 @@ function showResults() {
 }
 
 // ============================================================================================
-// FUNÇÕES DE UI E EVENTOS
+// FUNÇÕES AUXILIARES DE UI E EVENTOS
 // ============================================================================================
 
+/**
+ * Exibe um estado de carregamento dentro do container do teste.
+ * @param {string} message - A mensagem a ser exibida.
+ */
 function showLoadingState(message) {
     testContainer.innerHTML = `<div class="text-center p-8">
         <i class="fas fa-spinner fa-spin text-4xl text-knn-purple mb-4"></i>
@@ -271,6 +303,10 @@ function showLoadingState(message) {
     </div>`;
 }
 
+/**
+ * Exibe uma mensagem de erro dentro do container do teste.
+ * @param {string} message - A mensagem de erro.
+ */
 function showErrorState(message) {
     testContainer.innerHTML = `<div class="text-center p-8 bg-red-50 border border-red-200 rounded-lg">
         <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
@@ -281,6 +317,10 @@ function showErrorState(message) {
     document.getElementById('back-to-selection-button').addEventListener('click', returnToSelection);
 }
 
+/**
+ * Reconstrói a estrutura HTML do teste dentro do #test-container.
+ * Isso é feito para garantir que os elementos e seus event listeners sejam resetados a cada novo teste.
+ */
 function buildTestUI() {
     testContainer.innerHTML = `
         <div id="test-question-screen" class="hidden">
@@ -310,7 +350,7 @@ function buildTestUI() {
         </div>
     `;
 
-    // Reatribui todas as variáveis globais aos novos elementos criados
+    // Reatribui as variáveis globais aos novos elementos criados no DOM
     testQuestionScreen = document.getElementById('test-question-screen');
     testResultScreen = document.getElementById('test-result-screen');
     questionTextEl = document.getElementById('question-text');
@@ -326,18 +366,20 @@ function buildTestUI() {
     levelDescriptionEl = document.getElementById('level-description');
     resultLanguageNameEl = document.getElementById('result-language-name');
 
-    // Reatribui os event listeners
+    // Reatribui os event listeners aos novos botões
     nextQuestionButton.addEventListener('click', handleNextQuestion);
     restartTestButton.addEventListener('click', returnToSelection);
 }
 
+/**
+ * Retorna o usuário para a tela de seleção de idiomas.
+ */
 function returnToSelection() {
     testAreaSection.classList.add('hidden');
     document.getElementById('language-tests-selection').classList.remove('hidden');
 }
 
-
-// Adiciona os event listeners aos botões e links
+// --- Adiciona os Event Listeners aos botões e links da página ---
 languageTestButtons.forEach(button => {
     button.addEventListener('click', () => initTest(button.dataset.lang, button.dataset.langName));
 });
@@ -345,9 +387,10 @@ languageTestButtons.forEach(button => {
 initTestLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
-        const matchingButton = document.querySelector(`.language-test-button[data-lang="${link.dataset.langTest}"]`);
-        const langName = matchingButton ? matchingButton.dataset.langName : (link.dataset.langTest.charAt(0).toUpperCase() + link.dataset.langTest.slice(1));
-        initTest(link.dataset.langTest, langName);
+        const langKey = link.dataset.langTest;
+        const matchingButton = document.querySelector(`.language-test-button[data-lang="${langKey}"]`);
+        const langName = matchingButton ? matchingButton.dataset.langName : (langKey.charAt(0).toUpperCase() + langKey.slice(1));
+        initTest(langKey, langName);
     });
 });
 
