@@ -31,7 +31,7 @@
                 <a href="#depoimentos" class="text-slate-600 hover:text-knn-purple transition duration-300">Depoimentos</a>
                 <a href="#language-tests-selection" class="text-slate-600 hover:text-knn-purple transition duration-300">Testes de Nível</a>
                 <a href="#contato" class="text-slate-600 hover:text-knn-purple transition duration-300">Contato</a>
-                <a href="#matricular" class="bg-knn-purple hover:bg-knn-purple-dark text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-sm hover:shadow-md">Matricule-se</a>
+                <a href="#contato" class="bg-knn-purple hover:bg-knn-purple-dark text-white font-semibold py-2 px-6 rounded-lg transition duration-300 shadow-sm hover:shadow-md">Matricule-se</a>
             </nav>
             <!-- Botão do menu para dispositivos móveis -->
             <button id="mobile-menu-button" class="md:hidden text-slate-600 hover:text-knn-purple focus:outline-none">
@@ -45,7 +45,7 @@
             <a href="#depoimentos" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Depoimentos</a>
             <a href="#language-tests-selection" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Testes de Nível</a>
             <a href="#contato" class="block px-6 py-3 text-slate-600 hover:bg-purple-50 hover:text-knn-purple">Contato</a>
-            <a href="#matricular" class="block px-6 py-3 text-knn-purple bg-purple-100 font-semibold hover:bg-purple-200 text-center">Matricule-se</a>
+            <a href="#contato" class="block px-6 py-3 text-knn-purple bg-purple-100 font-semibold hover:bg-purple-200 text-center">Matricule-se</a>
         </div>
     </header>
 
@@ -322,44 +322,7 @@
                 <p class="text-slate-600 mb-8 text-lg">Fale conosco, agende sua aula experimental gratuita ou tire suas
                     dúvidas. Nossa equipe está pronta para te ajudar a alcançar a fluência!</p>
                 <!-- Formulário de Contato -->
-                <form id="contact-form" class="space-y-6">
-                    <div>
-                        <label for="name" class="sr-only">Nome</label>
-                        <input type="text" name="name" id="name" placeholder="Seu nome completo"
-                            class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition duration-300"
-                            required>
-                    </div>
-                    <div>
-                        <label for="email" class="sr-only">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Seu melhor e-mail"
-                            class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition duration-300"
-                            required>
-                    </div>
-                    <div>
-                        <label for="language_interest" class="sr-only">Idioma de Interesse</label>
-                        <select name="language_interest" id="language_interest"
-                            class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition duration-300 bg-white"
-                            required>
-                            <option value="" disabled selected>Qual idioma você quer aprender?</option>
-                            <option value="ingles">Inglês</option>
-                            <option value="espanhol">Espanhol</option>
-                            <option value="italiano">Italiano</option>
-                            <option value="libras">Libras</option>
-                            <option value="outro">Outro (especifique na mensagem)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="message" class="sr-only">Mensagem</label>
-                        <textarea name="message" id="message" rows="4" placeholder="Sua mensagem (opcional)"
-                            class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition duration-300"></textarea>
-                    </div>
-                    <button type="submit"
-                        class="cta-button-orange text-white font-bold py-3 px-10 rounded-lg text-lg shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105 w-full md:w-auto">
-                        Enviar Mensagem <i class="fas fa-paper-plane ml-2"></i>
-                    </button>
-                </form>
-                <!-- Feedback do formulário (controlado por JS) -->
-                <div id="form-feedback" class="mt-6 text-center"></div>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc7PSJ0PEssbYaJdZUTNi91qtBgpSTJAx9l7IEnWTx8Qnpj7w/viewform?embedded=true" width="100%" height="1121" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
             </div>
         </div>
     </section>
@@ -405,7 +368,7 @@
                     <h5 class="text-lg font-semibold text-white mb-4">Contato</h5>
                     <ul class="space-y-2 text-sm">
                         <li><i class="fas fa-envelope mr-2 text-purple-400"></i> contato&commat;rocketglobal.school</li>
-                        <li><i class="fab fa-whatsapp mr-2 text-purple-400"></i> +55 (XX) XXXXX-XXXX</li>
+                        <li><i class="fab fa-whatsapp mr-2 text-purple-400"></i> +55 (41) 99649-1490</li>
                         <li><i class="fas fa-info-circle mr-2 text-purple-400"></i> FAQs</li>
                     </ul>
                 </div>
@@ -431,6 +394,13 @@
     <script src="js/mobile.js"></script>
     <script src="js/config.js"></script>
     <script src="js/testes.js"></script>
+
+    <a href="https://wa.me/5541996491490?text=Ol%C3%A1%21+Gostaria+de+saber+mais+sobre+os+cursos."
+       id="whatsapp-button"
+       target="_blank"
+       title="Fale conosco pelo WhatsApp">
+       <i class="fab fa-whatsapp"></i>
+    </a>
 </body>
 
 </html>

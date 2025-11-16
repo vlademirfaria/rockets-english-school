@@ -16,4 +16,4 @@
 // echo "js/config.js" >> .gitignore
 // ============================================================================================
 
-const GEMINI_API_KEY = ""; // <-- COLOQUE SUA CHAVE DE API AQUI
+const GEMINI_API_KEY = "AIzaSyCp7SH4mgVooZVlfyuLXzJjmk8AxqxkbmE"; // <-- COLOQUE SUA CHAVE DE API AQUI

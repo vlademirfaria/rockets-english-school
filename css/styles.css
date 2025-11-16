@@ -114,3 +114,38 @@ body {
     /* Adiciona uma sombra para dar profundidade */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
+
+/* ============================================================================================ */
+/* Botão Flutuante do WhatsApp */
+/* ============================================================================================ */
+#whatsapp-button {
+    position: fixed; /* Mantém o botão fixo na tela */
+    bottom: 30px;    /* Distância da parte de baixo */
+    right: 30px;     /* Distância da parte da direita */
+    z-index: 100;    /* Garante que ele fique por cima de outros elementos */
+
+    /* Estilo do botão */
+    background-color: #25D366; /* Cor verde oficial do WhatsApp */
+    color: white;             /* Cor do ícone */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Deixa o botão redondo */
+
+    /* Centraliza o ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Estilo do ícone */
+    font-size: 32px;
+    
+    /* Efeitos */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Efeito ao passar o mouse */
+#whatsapp-button:hover {
+    transform: scale(1.1); /* Aumenta o tamanho */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
